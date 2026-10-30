@@ -1,0 +1,53 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v3/market/equity/call-book?from=1793232000&to=1793318400&limit=5"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "0"
+                },
+                "body": {
+                    "bars": [
+                        {
+                            "barAt": 1793318400,
+                            "live": false,
+                            "longShare": 92.50652933902249,
+                            "shortShare": 7.493470660977508,
+                            "crowdingPercentile": 0.1488095238095238,
+                            "accountCount": 2918,
+                            "pulse24": 68.3095353974197,
+                            "pulse24LongShare": 77.77777777777777,
+                            "pulse6": 59.59027631616519,
+                            "pulse6LongShare": 69.81132075471699,
+                            "formulaVersion": "sentiment.v4",
+                            "computedAt": 1793340039
+                        },
+                        {
+                            "barAt": 1793314800,
+                            "live": false,
+                            "longShare": 92.52183042013269,
+                            "shortShare": 7.478169579867313,
+                            "crowdingPercentile": 0.1488095238095238,
+                            "accountCount": 2924,
+                            "pulse24": 68.20212554519465,
+                            "pulse24LongShare": 77.66323024054982,
+                            "pulse6": 64.8002432087595,
+                            "pulse6LongShare": 72.41379310344827,
+                            "formulaVersion": "sentiment.v4",
+                            "computedAt": 1793336431
+                        }
+                    ],
+                    "nextCursor": "rnnw9sBb.MjAyNi0xMC0yOSAyMDowMDowMCswMA",
+                    "hasMore": true,
+                    "servedFrom": 1793232000
+                }
+            }
+        }
+    ]
+}

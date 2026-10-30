@@ -1,0 +1,50 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v2/data/event-summary?keywords=solana+etf&timeWindow=24h&searchType=or"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "4"
+                },
+                "body": {
+                    "success": true,
+                    "data": [
+                        {
+                            "summary": "ETF flow posts highlighted a divergence: U.S. spot XRP ETFs recorded $8.43M in net inflows on October 29 while Ethereum ETFs saw $105.48M in outflows and Solana ETFs lost $27.69M. Issuer-level Solana ETF updates showed Bitwise BSOL at -$23.7M and Grayscale GSOL at -$4M, alongside zero-flow updates from several other issuers.",
+                            "sourceLinks": [
+                                "https://x.com/BankXRP/status/2116043284653265308",
+                                "https://x.com/Xaif_Crypto/status/2116041040830627981"
+                            ],
+                            "tweetIds": [
+                                "2116043284653265308",
+                                "2116041040830627981"
+                            ]
+                        },
+                        {
+                            "summary": "Posts noted that spot Bitcoin ETF net inflows continued over multiple days—e.g., +$137.33M on October 28 and about $423.6M across October 26–28—while BTC traded near or below $80K, framing ETF demand as positive even as price sentiment remained bearish.",
+                            "sourceLinks": [
+                                "https://x.com/WOLF_Crypto_X/status/2115784364797657243",
+                                "https://x.com/FabiusDefi/status/2115767342378701247"
+                            ],
+                            "tweetIds": [
+                                "2115784364797657243",
+                                "2115767342378701247"
+                            ]
+                        }
+                    ],
+                    "metadata": {
+                        "total": 21,
+                        "total_summarized": 21,
+                        "summaries": 5
+                    }
+                }
+            }
+        }
+    ]
+}

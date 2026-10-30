@@ -1,0 +1,44 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v3/market/crypto/trending-contracts?from=1793232000&to=1793318400&limit=5"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "0"
+                },
+                "body": {
+                    "contracts": [
+                        {
+                            "rank": 1,
+                            "contractAddress": "0x5227f603c1ee34ce3c06efe6477003bdfccb2f8c",
+                            "mentionCount": 110,
+                            "asset": null
+                        },
+                        {
+                            "rank": 2,
+                            "contractAddress": "0x6982508145454ce325ddbe47a25d4ec3d2311933",
+                            "mentionCount": 81,
+                            "asset": {
+                                "id": "4eb745b9-122f-46bc-9e3b-d5a0cb69310a",
+                                "symbol": "PEPE",
+                                "name": "Pepe",
+                                "chains": [
+                                    "ethereum"
+                                ]
+                            }
+                        }
+                    ],
+                    "nextCursor": "1qASAmNH.5:1793318400",
+                    "hasMore": true,
+                    "servedFrom": 1793232000
+                }
+            }
+        }
+    ]
+}

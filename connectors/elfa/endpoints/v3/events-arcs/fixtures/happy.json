@@ -1,0 +1,46 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v3/events/arcs?limit=3"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "0"
+                },
+                "body": {
+                    "arcs": [
+                        {
+                            "id": "f456f2be-480e-47f6-adc0-3b89860ee368",
+                            "name": "BNB Chain’s tokenized-asset growth",
+                            "summary": "BNB Chain reported Q3 growth in tokenized equities, RWA supply, and lending; CZ says the network leads in tokenized-RWA value, TVL, and users.",
+                            "status": "active",
+                            "storylineIds": [
+                                "833f27eb-08f9-4f56-9ff1-b932018f61c3",
+                                "d8b3a800-9f18-4790-a5ef-e3046b161cc3"
+                            ],
+                            "updatedAt": 1793354516
+                        },
+                        {
+                            "id": "a40e7a87-96f5-4c55-8f5a-df9af53fc4a8",
+                            "name": "Hormuz shipping disruption and security talks",
+                            "summary": "Iran has rejected a U.S. proposal tied to reopening the Strait of Hormuz, where reports describe vessel attacks, military activity, and claims of Iranian operational control. South Korea has ruled out combat deployment while weighing other options.",
+                            "status": "active",
+                            "storylineIds": [
+                                "36012462-0c80-44e2-8bcc-e14d9e477fd5",
+                                "4f24f942-cf05-49d6-aa21-dfff3dd97a04"
+                            ],
+                            "updatedAt": 1793354516
+                        }
+                    ],
+                    "nextCursor": "2YWr29jb.MjAyNi0xMC0zMCAxMDowMTo1Ni4wMjAyNTIrMDB8NjZkYzY2OWYtZWJlMi00YmFhLTk4MGYtNGJmZTlmMDMzZWQy",
+                    "hasMore": true
+                }
+            }
+        }
+    ]
+}

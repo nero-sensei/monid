@@ -1,0 +1,76 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v3/events/storylines?from=1793232000&to=1793318400&limit=3"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "0"
+                },
+                "body": {
+                    "storylines": [
+                        {
+                            "id": "0a2d0bb2-d69c-4d23-9290-bbd5f69fdde6",
+                            "title": "Ukraine’s pause in attacks on Russian energy targets may extend beyond U.S. midterms",
+                            "summary": "A Wall Street Journal report says Ukraine’s pause in attacks on Russian energy targets is expected to continue beyond the U.S. midterm elections and possibly into November. This updates the status of the strike campaign previously reported as a source of tension with Trump.",
+                            "status": "open",
+                            "entities": [],
+                            "startedAt": 1792952216,
+                            "lastEventAt": 1793318097,
+                            "lastMaterialAt": 1793318097,
+                            "arcId": "66dc669f-ebe2-4baa-980f-4bfe9f033ed2",
+                            "events": [
+                                {
+                                    "eventId": "e800a283-59c2-495b-bc89-2af34edb767c",
+                                    "relation": "origin",
+                                    "material": true,
+                                    "occurredAt": 1792952216
+                                },
+                                {
+                                    "eventId": "12ba00f1-963d-4acf-82fa-b683c53bf86d",
+                                    "relation": "update",
+                                    "material": true,
+                                    "occurredAt": 1793318097
+                                }
+                            ]
+                        },
+                        {
+                            "id": "b0baf6e7-772c-42b1-80b5-4345735a84eb",
+                            "title": "A single Ethereum transaction reportedly paid a 47 ETH fee",
+                            "summary": "Whale Alert reported that one Ethereum transaction paid a fee of 47 ETH, valued at about $108,298. The posts repeat the same reported transaction.",
+                            "status": "open",
+                            "entities": [
+                                {
+                                    "id": "7e735621-f411-49c0-b985-2dddc65ac570",
+                                    "symbol": "ETH",
+                                    "name": "Ethereum",
+                                    "entityType": "token"
+                                }
+                            ],
+                            "startedAt": 1793318095,
+                            "lastEventAt": 1793318095,
+                            "lastMaterialAt": 1793318095,
+                            "arcId": null,
+                            "events": [
+                                {
+                                    "eventId": "9f045332-b1bb-4c99-ae66-6908f9dd3b04",
+                                    "relation": "origin",
+                                    "material": true,
+                                    "occurredAt": 1793318095
+                                }
+                            ]
+                        }
+                    ],
+                    "nextCursor": "3dNAeQ6u.MjAyNi0xMC0yOSAyMzo1NDowNS41Nzc5ODErMDB8MjA3ZTA0MjktYzVmNS00YjY0LTg5NDEtNGVjY2NlYzE5MGIy",
+                    "hasMore": true,
+                    "servedFrom": 1793232000
+                }
+            }
+        }
+    ]
+}

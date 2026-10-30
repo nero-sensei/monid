@@ -1,0 +1,67 @@
+{
+    "name": "happy",
+    "description": "Recorded live against api.elfa.ai on 2026-10-30 with deno task record (trimmed and scrubbed). The key's plan is not charged the 1-credit base, and v3 billing starts on 1 November 2026, so x-elfa-credits reads 0 on v3 and on the 1-credit v2 endpoints (the zero claim is pruned and the published card settles) and 4 on the 5-credit v2 endpoints (the claim settles, the card rides out as mismatch.derived).",
+    "calls": [
+        {
+            "req": {
+                "method": "GET",
+                "url": "https://api.elfa.ai/v2/data/keyword-mentions?keywords=solana%2Cetf&limit=5&timeWindow=7d"
+            },
+            "res": {
+                "status": 200,
+                "headers": {
+                    "x-elfa-credits": "0"
+                },
+                "body": {
+                    "success": true,
+                    "data": [
+                        {
+                            "tweetId": "2116081361274757171",
+                            "link": "https://x.com/flyiiawei/status/2116081361274757171",
+                            "likeCount": 1,
+                            "repostCount": 0,
+                            "viewCount": 24,
+                            "quoteCount": 0,
+                            "replyCount": 0,
+                            "bookmarkCount": 0,
+                            "mentionedAt": "2026-10-30T08:14:46+00:00",
+                            "type": "note",
+                            "account": {
+                                "username": "flyiiawei",
+                                "isVerified": false
+                            },
+                            "repostBreakdown": {
+                                "smart": 0,
+                                "ct": 0
+                            }
+                        },
+                        {
+                            "tweetId": "2116043284653265308",
+                            "link": "https://x.com/BankXRP/status/2116043284653265308",
+                            "likeCount": 91,
+                            "repostCount": 24,
+                            "viewCount": 6048,
+                            "quoteCount": 1,
+                            "replyCount": 6,
+                            "bookmarkCount": 3,
+                            "mentionedAt": "2026-10-30T05:43:27+00:00",
+                            "type": "note",
+                            "account": {
+                                "username": "BankXRP",
+                                "isVerified": false
+                            },
+                            "repostBreakdown": {
+                                "smart": 0,
+                                "ct": 0
+                            }
+                        }
+                    ],
+                    "metadata": {
+                        "total": 169,
+                        "cursor": 1793322862000
+                    }
+                }
+            }
+        }
+    ]
+}
