@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const zV3EventsQueryParams = z.object({
-    q: z.string().min(1).max(500).describe(
+    q: z.string().max(500).regex(/\S/).describe(
         "Topic to search for, up to 500 characters. Ranks by " +
             "relevance; see the endpoint description.",
     ).optional(),
@@ -11,7 +11,7 @@ export const zV3EventsQueryParams = z.object({
     to: z.number().int().nonnegative().max(4_102_444_800).describe(
         "Unix seconds. Default now.",
     ).optional(),
-    eventIds: z.array(z.guid()).max(30).describe(
+    eventIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30. An id we do not hold, or older than the plan's " +
             "history, is skipped.",
     ).optional(),
@@ -38,7 +38,7 @@ export const zV3EventsQueryParams = z.object({
         "Which way the event cuts. On a call, derived from the side " +
             "taken.",
     ).optional(),
-    entityIds: z.array(z.guid()).max(30).describe(
+    entityIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30 family or entity UUIDs. Matches events naming any " +
             "of them.",
     ).optional(),
@@ -51,7 +51,7 @@ export const zV3EventsQueryParams = z.object({
     novelty: z.enum(["new", "update"]).describe(
         "`new` skips second readings of a story already served.",
     ).optional(),
-    alertAction: z.array(z.enum(["alert", "monitor"])).describe(
+    alertAction: z.array(z.enum(["alert", "monitor"])).min(1).describe(
         "One or more.",
     ).optional(),
     sort: z.enum(["latest", "relevant"]).describe(

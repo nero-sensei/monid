@@ -26,8 +26,8 @@ export default defineEndpoint({
         categories: ["crypto-signals", "equities"],
         notes: [
             "1 credit, plus 2 per position not already billed to the " +
-            "platform key in its current status in the last 90 days, so a " +
-            "position bills again once when it closes.",
+            "platform's Elfa account in its current status in the last 90 " +
+            "days, so a position bills again once when it closes.",
             "`from` is required unless `episodeIds` is sent.",
         ],
     },
@@ -55,7 +55,7 @@ export default defineEndpoint({
                     unit: Unit.RESULT,
                     label: "positions",
                     description:
-                        "positions returned and not already billed to the platform key in its current status in the last 90 days",
+                        "positions returned and not already billed to the platform's Elfa account in its current status in the last 90 days",
                     consumes: { credit: "default", amount: 2 },
                 },
             },

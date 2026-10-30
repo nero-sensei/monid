@@ -74,7 +74,8 @@ export default defineProvider({
             );
             const data = {
                 ...(credits !== undefined ? { credits } : {}),
-                ...(objects !== undefined && /^\d+$/.test(objects[1] ?? "")
+                ...(hasBase && objects !== undefined &&
+                        /^\d+$/.test(objects[1] ?? "")
                     ? { objects: Number(objects[1]) }
                     : {}),
                 ...(hasBase

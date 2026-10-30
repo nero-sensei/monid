@@ -8,13 +8,13 @@ export default defineEndpoint({
             "Posts that open, add to, trim, close or reverse a position, with setup and thesis.",
         description: "Every call: one post that opened, added to, trimmed, " +
             "reaffirmed, reversed, closed or stopped out of a position, " +
-            "with its setup and thesis. Telegram calls show, but only an " +
-            "X handle can be filtered on until channels are mapped.",
+            "with its setup and thesis. Telegram calls are returned, but " +
+            "only an X handle can be filtered on.",
         docsUrl: "https://docs.elfa.ai/api/v3/endpoints/list-calls",
         categories: ["crypto-signals", "equities"],
         notes: [
-            "1 credit, plus 1 per call not already billed to the platform " +
-            "key in the last 24 hours.",
+            "1 credit, plus 1 per call not already billed to the " +
+            "platform's Elfa account in the last 24 hours.",
             "`from` is required unless `callIds` is sent.",
         ],
     },
@@ -40,7 +40,7 @@ export default defineEndpoint({
                     unit: Unit.RESULT,
                     label: "calls",
                     description:
-                        "calls returned and not already billed to the platform key in the last 24 hours",
+                        "calls returned and not already billed to the platform's Elfa account in the last 24 hours",
                     consumes: { credit: "default", amount: 1 },
                 },
             },

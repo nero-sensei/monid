@@ -24,9 +24,9 @@ export default defineEndpoint({
         docsUrl: "https://docs.elfa.ai/api/v3/endpoints/list-arcs",
         categories: ["crypto-signals", "news-search", "equities"],
         notes: [
-            "1 credit, plus 2 per arc not already billed to the platform " +
-            "key that UTC day. A `q` search adds no surcharge; returned " +
-            "objects are billed as usual.",
+            "1 credit, plus 2 per arc not already billed to the " +
+            "platform's Elfa account that UTC day. A `q` search adds no " +
+            "surcharge; returned objects are billed as usual.",
             "`assetClass`, `entityIds` and `sort` read active arcs only " +
             "and refuse `arcIds`, `status=retired` and `order=asc`.",
         ],
@@ -55,7 +55,7 @@ export default defineEndpoint({
                     unit: Unit.RESULT,
                     label: "arcs",
                     description:
-                        "arcs returned and not already billed to the platform key that UTC day",
+                        "arcs returned and not already billed to the platform's Elfa account that UTC day",
                     consumes: { credit: "default", amount: 2 },
                 },
             },

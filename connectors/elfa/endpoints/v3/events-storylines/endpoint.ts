@@ -24,8 +24,8 @@ export default defineEndpoint({
         categories: ["crypto-signals", "news-search", "equities"],
         notes: [
             "1 credit, plus 2 per storyline not already billed to the " +
-            "platform key that UTC day. A `q` search adds no surcharge; " +
-            "returned objects are billed as usual.",
+            "platform's Elfa account that UTC day. A `q` search adds no " +
+            "surcharge; returned objects are billed as usual.",
             "`from` is required unless `storylineIds` or `q` is sent.",
         ],
     },
@@ -52,7 +52,7 @@ export default defineEndpoint({
                     unit: Unit.RESULT,
                     label: "storylines",
                     description:
-                        "storylines returned and not already billed to the platform key that UTC day",
+                        "storylines returned and not already billed to the platform's Elfa account that UTC day",
                     consumes: { credit: "default", amount: 2 },
                 },
             },

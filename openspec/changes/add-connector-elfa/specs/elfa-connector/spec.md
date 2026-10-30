@@ -8,8 +8,9 @@ The elfa provider SHALL declare name `elfa`, `request.baseUrl`
 60 s request / 60 s run, and the credit pool `default` ("Elfa credits"). A
 provider-level `lifecycle.start` SHALL relay `x-elfa-credits` into
 `state.data.credits` when it is a safe non-negative integer, and SHALL relay
-`x-elfa-credits-detail` into `state.data.objects` and `state.data.window` when
-the detail carries a `base` part. A provider-level `usage.consolidate` SHALL
+`x-elfa-credits-detail` into `state.data.objects` and `state.data.window` only
+when the detail carries a `base` part, with `window` 0 when the detail names
+none. A provider-level `usage.consolidate` SHALL
 claim `state.data.credits`, omitting the entry when it is absent.
 
 #### Scenario: The meter wins over the card
@@ -40,20 +41,22 @@ lines for the limit-banded v3 endpoints. Estimates SHALL hold the largest
 charge the input allows.
 
 #### Scenario: A topic search still bills its objects
-- **WHEN** `elfa#v3/storylines` is estimated with `q` and the default limit
+- **WHEN** `elfa#v3/events/storylines` is estimated with `q` and the default limit
 - **THEN** the hold is 1 + 2 × 10 credits
 
 #### Scenario: Long ranges on trending contracts
 - **WHEN** `elfa#v3/market/crypto/trending-contracts` runs with
   `to - from` of 86 700 seconds or less
 - **THEN** no `long_range` line is counted; above it, or with `to` omitted in
-  the estimate, the 5-credit line is counted
+  the estimate, the 5-credit line is counted. Settlement reads `window` from
+  the detail header; without it, an omitted `to` counts no surcharge
 
 ### Requirement: Inputs follow Elfa's runtime validators
-Every `schema/inputs.ts` SHALL be strict, optional-only, and at least as
-narrow as Elfa's validator for that endpoint, so a request the platform would
-pay a v2 validation error for is refused before it is sent. Array params SHALL
-be sent comma-joined.
+Every `schema/inputs.ts` SHALL be strict, carry no defaults, and match Elfa's
+validator field by field (types, enums, bounds, required fields), checked on
+the raw value where Elfa trims or normalises first, so a field-level mistake is
+refused before it is sent. Cross-field rules SHALL be stated in endpoint notes
+or descriptions. Array params SHALL be sent comma-joined.
 
 #### Scenario: Unknown keys never reach the wire
 - **WHEN** any endpoint is called with a key outside its mirror

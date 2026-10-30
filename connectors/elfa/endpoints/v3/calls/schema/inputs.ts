@@ -7,14 +7,14 @@ export const zV3CallsQueryParams = z.object({
     to: z.number().int().nonnegative().max(4_102_444_800).describe(
         "Unix seconds. Default now.",
     ).optional(),
-    callIds: z.array(z.guid()).max(30).describe(
+    callIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30. An id we do not hold, or older than the plan's " +
             "history, is skipped.",
     ).optional(),
-    handle: z.string().min(1).max(40).describe(
+    handle: z.string().max(40).regex(/[^\s@]/).describe(
         "An X username, with or without the at sign.",
     ).optional(),
-    entityIds: z.array(z.guid()).max(30).describe(
+    entityIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30 asset family UUIDs.",
     ).optional(),
     order: z.enum(["desc", "asc"]).describe(

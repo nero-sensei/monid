@@ -1,13 +1,13 @@
 import { z } from "zod";
 
 export const zV3EntitiesQueryParams = z.object({
-    q: z.string().min(1).max(128).describe(
+    q: z.string().max(128).regex(/\S/).describe(
         "A ticker, cashtag, name, `@handle`, contract address, " +
             "CoinGecko id, FIGI or CIK.",
     ),
     entityType: z.array(
         z.enum(["token", "equity", "project", "person", "organisation"]),
-    ).describe(
+    ).min(1).describe(
         "One or more. Omit to search every kind.",
     ).optional(),
     limit: z.number().int().min(1).max(200).describe(

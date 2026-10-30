@@ -3,6 +3,7 @@ import { fromFileUrl } from "@std/path";
 import type { Json, RunInput } from "@shared/core";
 import type { Fixture } from "@shared/testing";
 import {
+    liveSkip,
     loadFixture,
     runEndpoint,
     testBundle,
@@ -357,6 +358,32 @@ Deno.test("elfa: estimates price the hold from the input", async () => {
         ["elfa#v3/events/storylines", { queryParams: { from: 1 } }, {
             default: 21,
         }],
+        ["elfa#v3/events/arcs", { queryParams: {} }, { default: 21 }],
+        ["elfa#v3/events/arcs", { queryParams: { q: "ai agents" } }, {
+            default: 21,
+        }],
+        [
+            "elfa#v3/events/arcs",
+            {
+                queryParams: {
+                    arcIds: ["00000000-0000-4000-8000-000000000001"],
+                },
+            },
+            { default: 3 },
+        ],
+        ["elfa#v3/calls", { queryParams: { from: 1 } }, { default: 11 }],
+        [
+            "elfa#v3/calls",
+            {
+                queryParams: {
+                    callIds: [
+                        "00000000-0000-4000-8000-000000000001",
+                        "00000000-0000-4000-8000-000000000002",
+                    ],
+                },
+            },
+            { default: 3 },
+        ],
         ["elfa#v3/calls/episodes", { queryParams: { from: 1, limit: 5 } }, {
             default: 11,
         }],
@@ -429,21 +456,65 @@ const chain = (
 });
 
 Deno.test("elfa: the detail header makes evidence agree with the meter", async () => {
-    const fixture = await loadFixture(`${HERE}fixtures/synthetic-metered.json`);
-    fixture.calls[0].res.headers = {
-        [METER]: "2",
-        "x-elfa-credits-detail": "base=1;objects=1;dedup=2",
-    };
-    const result = await runEndpoint({
-        unit: await testSealedUnit(METERED),
-        input: METERED_INPUT,
-        mode: "replay",
-        fixture,
-    });
-    assertEquals(result.usage, {
-        credits: { default: 2 },
-        evidence: { request: 1, events: 1 },
-    });
+    const cases: [Record<string, string>, Record<string, number>, number][] = [
+        [
+            {
+                [METER]: "2",
+                "x-elfa-credits-detail": "base=1;objects=1;dedup=2",
+            },
+            {
+                request: 1,
+                events: 1,
+            },
+            2,
+        ],
+        [{
+            [METER]: "3",
+            "x-elfa-credits-detail": "base=1;objects=2;dedup=1;q=0",
+        }, {
+            request: 1,
+            events: 2,
+        }, 3],
+        [
+            {
+                [METER]: "0",
+                "x-elfa-credits-detail": "base=1;objects=1;dedup=2",
+            },
+            {
+                request: 1,
+                events: 1,
+            },
+            2,
+        ],
+        [{ "x-elfa-credits-detail": "base=1;objects=0;dedup=3" }, {
+            request: 1,
+            events: 0,
+        }, 1],
+        [{ [METER]: "4", "x-elfa-credits-detail": "base=1" }, {
+            request: 1,
+            events: 3,
+        }, 4],
+        [{ [METER]: "4", "x-elfa-credits-detail": "objects=1" }, {
+            request: 1,
+            events: 3,
+        }, 4],
+    ];
+    for (const [headers, evidence, credits] of cases) {
+        const fixture = await loadFixture(
+            `${HERE}fixtures/synthetic-metered.json`,
+        );
+        fixture.calls[0].res.headers = headers;
+        const result = await runEndpoint({
+            unit: await testSealedUnit(METERED),
+            input: METERED_INPUT,
+            mode: "replay",
+            fixture,
+        });
+        assertEquals(result.usage, {
+            credits: { default: credits },
+            evidence,
+        }, JSON.stringify(headers));
+    }
 });
 
 Deno.test("elfa: the detail window settles the trending-contracts surcharge", async () => {
@@ -460,21 +531,26 @@ Deno.test("elfa: the detail window settles the trending-contracts surcharge", as
         const [detail, credits, longRange] of [
             ["base=5", 5, 0],
             ["base=5;window=5", 10, 1],
+            [undefined, 5, 0],
         ] as const
     ) {
         const result = await runEndpoint({
             unit: await testSealedUnit(id),
             input,
             mode: "replay",
-            fixture: chain(url, body, {
-                [METER]: String(credits),
-                "x-elfa-credits-detail": detail,
-            }),
+            fixture: chain(
+                url,
+                body,
+                detail === undefined ? {} : {
+                    [METER]: String(credits),
+                    "x-elfa-credits-detail": detail,
+                },
+            ),
         });
         assertEquals(result.usage, {
             credits: { default: credits },
             evidence: { up_to_50: 1, up_to_200: 0, long_range: longRange },
-        }, detail);
+        }, String(detail));
     }
 });
 
@@ -540,6 +616,10 @@ Deno.test("elfa: mirrors refuse what Elfa's validators refuse", async () => {
         ["elfa#v3/events", { from: 1, limit: 31 }],
         ["elfa#v3/calls/positioning", { entityId: "bitcoin" }],
         ["elfa#v3/calls", { from: 1, handle: "x".repeat(41) }],
+        ["elfa#v3/calls", { from: 1, handle: "@" }],
+        ["elfa#v3/events", { eventIds: [] }],
+        ["elfa#v3/events", { q: "   " }],
+        ["elfa#v3/entities", { q: " " }],
         ["elfa#v2/aggregations/trending-tokens", { timeWindow: "7days" }],
         ["elfa#v2/aggregations/trending-tokens", { pageSize: 101 }],
         ["elfa#v2/data/keyword-mentions", { keywords: "a,b,c,d,e,f" }],
@@ -577,4 +657,19 @@ Deno.test("elfa: twin endpoints intern one usage fn", async () => {
             key("elfa#v3/market/equity/mindshare", hook),
         );
     }
+});
+
+Deno.test({
+    name: "elfa#v3/events live (gated on ELFA_API_KEY)",
+    ignore: liveSkip("elfa"),
+    fn: async () => {
+        const result = await runEndpoint({
+            unit: await testSealedUnit(METERED),
+            input: inputFor(METERED),
+            mode: "live",
+        });
+        assertEquals(result.isProviderError, false);
+        assert(Array.isArray((result.output as { events?: Json }).events));
+        assertEquals(typeof result.usage.credits.default, "number");
+    },
 });

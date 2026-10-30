@@ -34,8 +34,9 @@ export default defineEndpoint({
         categories: ["crypto-signals", "news-search", "equities"],
         notes: [
             "1 credit, plus 1 per event not already billed to the " +
-            "platform key within 8 days of its `analyzedAt`. A `q` search " +
-            "adds no surcharge; returned objects are billed as usual.",
+            "platform's Elfa account within 8 days of its `analyzedAt`. A " +
+            "`q` search adds no surcharge; returned objects are billed as " +
+            "usual.",
             "`from` is required unless `eventIds` or `q` is sent. " +
             "`eventIds` takes no other filter. `q` and `sort=relevant` " +
             "each refuse some filters; see the description.",
@@ -63,7 +64,7 @@ export default defineEndpoint({
                     unit: Unit.RESULT,
                     label: "events",
                     description:
-                        "events returned and not already billed to the platform key within 8 days of its `analyzedAt`",
+                        "events returned and not already billed to the platform's Elfa account within 8 days of its `analyzedAt`",
                     consumes: { credit: "default", amount: 1 },
                 },
             },

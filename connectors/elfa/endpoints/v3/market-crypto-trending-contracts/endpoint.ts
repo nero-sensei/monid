@@ -8,16 +8,18 @@ export default defineEndpoint({
             "Contract addresses pasted on X and Telegram, counted together and named where known.",
         description:
             "Contract addresses being pasted on X and Telegram, counted " +
-            "together, named where the registry knows the address. An " +
-            "address several tokens share across chains is named for the " +
-            "one on its home chain, the same order elfa#v3/entities ranks " +
-            "by, and left unnamed when the home chains do not pick out " +
+            "together, named where Elfa knows the token. An address " +
+            "several tokens share across chains is named for the one on " +
+            "its home chain, the same order elfa#v3/entities ranks by, " +
+            "and left unnamed when the home chains do not pick out " +
             "exactly one.",
         docsUrl: "https://docs.elfa.ai/api/v3/endpoints/trending-contracts",
         categories: ["crypto-signals", "twitter"],
         notes: [
             "5 credits for `limit` up to 50, 10 up to 200, plus 5 when " +
             "the range is over 24 hours.",
+            "Without `to`, the hold assumes the range is over 24 hours; " +
+            "the charge Elfa reports settles the call.",
         ],
     },
     request: { method: "GET", path: "/v3/market/crypto/trending-contracts" },
@@ -84,7 +86,7 @@ export default defineEndpoint({
                     up_to_200: limit > 50 ? 1 : 0,
                     long_range: typeof window === "number"
                         ? window > 0 ? 1 : 0
-                        : query?.to === undefined ||
+                        : query?.to !== undefined &&
                                 query.to - query.from > 86_700
                         ? 1
                         : 0,

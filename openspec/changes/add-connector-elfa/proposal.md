@@ -78,16 +78,21 @@ meter is the only exact source.
 
 ## Billing notes for the platform
 
-- v3 charges are effective from 1 November 2026. Before that date Elfa
-  reports `x-elfa-credits: 0` on v3. The engine prunes a zero
-  claim, so the derived card settles; evidence still reads the detail header,
-  so that card is the list price net of dedup.
-- Dedup is per Elfa key. The platform key is shared by every caller, so a caller
-  can benefit from another caller's earlier read.
+- The platform key must be on a credit-billed Elfa plan. On a plan that is not
+  charged the base credit, v2 reports `0` on the 1-credit endpoints and `4` on
+  the 5-credit ones, and v3 reports list prices that were never charged.
+- v3 charges are effective from 1 November 2026. Before that date Elfa reports
+  `x-elfa-credits: 0` and no detail header on v3; the zero claim is pruned and
+  the published card settles on every returned object, dedup not applied.
+- Dedup is per Elfa account. Every caller on the platform key shares it, so a
+  caller can benefit from another caller's earlier read.
 - v2 charges its 1-credit base on some non-2xx responses after authentication
   (`event-summary` and `trending-narratives` 503s, 429s, validation errors).
-  The engine zero-bills every non-2xx, so the platform absorbs those. The
-  mirrors match Elfa's validators to keep paid 400s out.
+  The engine zero-bills every non-2xx, so the platform absorbs those. Field-level
+  mirrors match Elfa's validators; the cross-field rules of
+  `v2/data/keyword-mentions` (`keywords` or `accountName`; `from` and `to` 1 to
+  30 days apart) are stated in notes, so a caller who ignores them still costs
+  one credit.
 - `event-summary` and `trending-narratives` run language-model work and can take
   well over a minute on a cold cache; both carry 180 s timeouts.
 - Elfa rate-limits per key (60 requests per minute by default); a platform key

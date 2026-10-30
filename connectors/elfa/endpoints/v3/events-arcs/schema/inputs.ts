@@ -1,11 +1,11 @@
 import { z } from "zod";
 
 export const zV3EventsArcsQueryParams = z.object({
-    q: z.string().min(1).max(500).describe(
+    q: z.string().max(500).regex(/\S/).describe(
         "Topic to search for, up to 500 characters. Ranks by " +
             "relevance.",
     ).optional(),
-    arcIds: z.array(z.guid()).max(30).describe(
+    arcIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30. An id we do not hold is skipped.",
     ).optional(),
     status: z.enum(["active", "retired"]).describe(
@@ -17,7 +17,7 @@ export const zV3EventsArcsQueryParams = z.object({
             "group in `sort` order. Counts and recency leave out events " +
             "tagged only for the other market.",
     ).optional(),
-    entityIds: z.array(z.guid()).max(30).describe(
+    entityIds: z.array(z.guid()).min(1).max(30).describe(
         "Up to 30 asset family UUIDs. A person, project or " +
             "organisation is refused.",
     ).optional(),

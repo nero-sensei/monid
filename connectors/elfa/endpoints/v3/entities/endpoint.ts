@@ -30,9 +30,9 @@ export default defineEndpoint({
             "scores the rest 0.95. The home chain is Solana for a base58 " +
             "address, and Ethereum, then Base, Arbitrum, BNB Chain, " +
             "Optimism, Polygon and Avalanche for a 0x one. A person or a " +
-            "company is only here if the registry already holds it, and a " +
-            "handle resolves to the entity behind the account rather than " +
-            "to the account, because handles change and the id does not.",
+            "company is only here if Elfa already tracks it, and a handle " +
+            "resolves to the entity behind the account rather than to the " +
+            "account, because handles change and the id does not.",
         docsUrl: "https://docs.elfa.ai/api/v3/endpoints/resolve-entities",
         categories: ["crypto-signals", "equities"],
         notes: [
